@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Credentials } from 'src/app/models/credentials';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ import { Component } from '@angular/core';
               <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" [(ngModel)]="username" required>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Username" [(ngModel)]="credentials.username" required>
                   <label for="username">Username</label>
                 </div>
               </div>
@@ -23,7 +25,7 @@ import { Component } from '@angular/core';
               <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
                 <div class="form-floating">
-                  <input type="password" class="form-control" id="password" name="password" placeholder="Password" [(ngModel)]="password" required>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Password" [(ngModel)]="credentials.password" required>
                   <label for="password">Password</label>
                 </div>
               </div>
@@ -36,7 +38,7 @@ import { Component } from '@angular/core';
               </div>
 
               <div class="d-grid">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" (click)="onSubmit()">Sign in</button>
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" (click)="OnSubmit()">Sign in</button>
               </div>
 
             </form>
@@ -50,13 +52,23 @@ import { Component } from '@angular/core';
   styles: []
 })
 export class LoginComponent {
-  username: string = "";
-  password: string = "";
+  credentials: Credentials = new Credentials();
   rememberPassword: boolean = false;
 
-  onSubmit() {
-    console.log("Username: " + this.username,
-                "Password: " + this.password,
-                "Remember Password: ", this.rememberPassword);
+  constructor(private loginService: LoginService) { }
+
+  @Output()
+  public OnSuccessfulLogin = new EventEmitter<void>();
+
+  async OnSubmit() {
+    if (this.credentials.username === "" || this.credentials.password === "") {
+      return;
+    }
+
+    console.log("Logging in with username: " + this.credentials.username,
+                "Remember Password: " + this.rememberPassword);
+    if (await this.loginService.login(this.credentials)) {
+      this.OnSuccessfulLogin.emit();
+    }
   }
 }
