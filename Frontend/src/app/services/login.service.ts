@@ -8,7 +8,7 @@ import { Credentials } from '../models/credentials';
 })
 export class LoginService {
 
-  private readonly API_URL = 'http://localhost';
+  private readonly API_URL = 'https://localhost:';
   private readonly PORT = "7237";
   private readonly LOGIN_ENDPOINT = '/api/Users/login';
 
