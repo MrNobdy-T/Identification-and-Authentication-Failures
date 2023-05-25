@@ -147,6 +147,38 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] User userObj)
+        {
+            if (userObj == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var user = _context.Users.Where(u => u.Username == userObj.Username).FirstOrDefault();
+
+                if (user != null)
+                {
+                    await PostUser(userObj);
+
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Successful registration",
+                    });
+                }
+                else
+                {
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Username already taken",
+                    });
+                }
+            }
+        }
+
         private bool UserExists(int id)
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
