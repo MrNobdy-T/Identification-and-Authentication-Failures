@@ -158,7 +158,7 @@ namespace WebAPI.Controllers
             {
                 var user = _context.Users.Where(u => u.Username == userObj.Username).FirstOrDefault();
 
-                if (user != null)
+                if (user == null)
                 {
                     await PostUser(userObj);
 
