@@ -1,6 +1,16 @@
 # Identification and Authentication Failures
 > Previously known as Broken Authentication, this category slid down from the second position and now includes Common Weakness Enumerations (CWEs) related to identification failures. Notable CWEs included are CWE-297: Improper Validation of Certificate with Host Mismatch, CWE-287: Improper Authentication, and CWE-384: Session Fixation.
 
+## Database Configuration
+* server=127.0.0.1
+* user=root
+* database=auth
+* password=admin
+* port=3306
+
+## WebAPI Configuration
+* https://localhost:7237
+
 ## Factors
 | CWEs Mapped |	Max Incidence Rate |	Avg Incidence Rate |	Avg Weighted Exploit |	Avg Weighted Impact |	Max Coverage |	Avg Coverage |	Total Occurrences |	Total CVEs |
 |-------------|--------------------|--------------------|----------------------|---------------------|--------------|--------------|-------------------|------------|
