@@ -45,4 +45,17 @@ Confirmation of the user's identity, authentication, and session management is c
 
 **Scenario #3:** Application session timeouts aren't set correctly. A user uses a public computer to access an application. Instead of selecting "logout," the user simply closes the browser tab and walks away. An attacker uses the same browser an hour later, and the user is still authenticated.
 
+## Bug Report
+This group of vulnerabilities - **Identification and Authentication Failures** - can be dealt with by a lot of different ways. Ranging from setting up an active directory via Azure to simply checking password complexity. The latter being my chosen approach to fixing this weak spot within the application. 
+
+By building a validator which checks the password based on the following criteria
+* Length
+* Special characters contained within the string
+* Mixture of capital and lower letters
+
+Any password with a length smaller than 4 is immediately considered as weak password and rejected. 
+
+This helps to alleviate the risk of falling victim to a brute force attack due to stricter password requirements 
+
+
 [Source, 27 April 2023](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)
