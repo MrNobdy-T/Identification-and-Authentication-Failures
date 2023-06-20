@@ -15,10 +15,12 @@ namespace WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly DatabaseContext _context;
+        private readonly IValidator<string> _passwordValidator;
 
-        public UsersController(DatabaseContext context)
+        public UsersController(DatabaseContext context, IValidator<string> passwordValidator)
         {
             _context = context;
+            _passwordValidator = passwordValidator;
         }
 
         // GET: api/Users
@@ -127,7 +129,7 @@ namespace WebAPI.Controllers
             {
                 var user = _context.Users.Where(u => u.Username == userObj.Username && u.Password == userObj.Password).FirstOrDefault();
 
-                if (user != null)
+                if (user != null && _passwordValidator.IsValid(user.Password!))
                 {
 
                     return Ok(new
